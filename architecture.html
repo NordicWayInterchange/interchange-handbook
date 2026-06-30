@@ -20,7 +20,7 @@
     <h1 class="logo">Interchange handbook</h1>
 
     <nav>
-        <a href="handbook.html">Home</a>
+        <a href="./">Home</a>
         <a href="architecture.html">Architecture</a>
         <a href="https://www.c-roads.eu/" target="_blank">C-Roads</a>
     </nav>
@@ -121,7 +121,7 @@
 
     <h3> The broker </h3>
 
-    <p>The AMQPS 1.0 message broker used is currently Qpid Broker-J. Service Providers and Neighbours will be able to
+    <p>The <span class="tag">AMQPS 1.0</span> message broker used is currently Qpid Broker-J. Service Providers and Neighbours will be able to
         connect to queues and exchanges based on their subscriptions or deliveries, and consume or produce messages.</p>
 
     <h3> Onboard-server - Service provider</h3>
@@ -192,7 +192,7 @@
 
     <h3> Keycloak </h3>
 
-    <p>Both **Interchange portal** and **admin frontend** are integrated with Keycloak configured with the required
+    <p>Both Interchange portal and admin frontend are integrated with Keycloak configured with the required
         realm,
         users and roles. It is used to authenticate users and obtain access tokens for secure communication.
         An organization represents a customer organization and can be configured with its own access permissions, roles,
@@ -231,16 +231,16 @@
         Client,
         Picocli, PostgreSQL Driver, JUnit Jupiter, Swagger/OpenAPI, JavaCC and Testcontainers**.</p>
 
-    <p>The **Apache Qpid JMS Client** is used to enable JMS-based messaging over AMQPS 1.0, allowing the application to
+    <p>The <span class="tag">Apache Qpid JMS Client</span> is used to enable JMS-based messaging over AMQPS 1.0, allowing the application to
         send and
         receive messages through a message broker.</p>
 
-    <p>The **Picocli** library is used to build command-line interfaces and handle parsing of command-line arguments in
+    <p>The <span class="tag">Picocli</span> library is used to build command-line interfaces and handle parsing of command-line arguments in
         a
-        structured way. This is used in **Service provider client**, which is a command-line client designed to interact
+        structured way. This is used in Service provider client, which is a command-line client designed to interact
         with the interchange.</p>
 
-    <p>The **PostgreSQL JDBC driver** is used to connect the application to a PostgreSQL database and perform database
+    <p>The <span class="tag">PostgreSQL JDBC driver</span> is used to connect the application to a PostgreSQL database and perform database
         operations through JDBC.</p>
 
     <h2> How to run the interchange </h2>
@@ -248,10 +248,12 @@
     <p>In addition to running the application with [Docker Compose](README.md#run-using-docker-compose),
         you can also run it directly after building the project. Once the build is complete, start the application by
         executing
-        the `./systemtest.sh` or `./single-node-systemtest.sh` script located in the systemtest-scripts module. This is
+        the <span class="tag">./systemtest.sh</span> or <span class="tag">./single-node-systemtest.sh</span> script
+        located in the systemtest-scripts module. This is
         used
         for local development.
-        The `./systemtest.sh` script runs two interchanges for II testing, and `./single-node-systemtest.sh` script runs
+        The <span class="tag">./systemtest.sh</span> script runs two interchanges for II testing, and <span class="tag">./single-node-systemtest.sh</span>
+        script runs
         one
         single interchange. </p>
 
