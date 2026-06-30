@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Interchange handbook</title>
+
+    <link id="favicon" rel="icon" href="favicon.ico">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+    <h1 class="logo">Interchange handbook</h1>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="architecture.html">Architecture</a>
+        <a href="https://www.c-roads.eu/" target="_blank">C-Roads</a>
+    </nav>
+
+    <a href="https://github.com/NordicWayInterchange/interchange" class="github" target="_blank">
+        <i class="fab fa-github"></i>
+    </a>
+</header>
+
+<section class="content">
+    <h2> Architecture </h2>
+
+    <h3> Central Concepts </h3>
+
+    <p>Learn more about key concepts in the <a href="GLOSSARY.html" target="_blank">Glossary</a>, where you can find
+        definitions and explanations of
+        important terms. </p>
+
+    <h3>Discovery </h3>
+
+    <p>Membership in the network is determined by an Owning Domain, which is a domain listed in DNS. A node looks up the
+        well-known Owning Domain in DNS, and finds all the participating nodes are listed in that domain as SRV records.
+        It is
+        up to each Node to communicate with all the other nodes in the network, and to exclude any other node that is
+        not listed
+        in the DNS.</p>
+
+    <h3> Control Plane </h3>
+
+    <p>The nodes communicate over HTTPS, using client certificates stemming from a well-known root CA to ensure two-way
+        trust.
+        Nodes announce the data they can supply in the form of Capabilities, and the data they wish to receive in the
+        form of
+        Subscriptions. When a subscription from one node is found to match a capability of another node, a data channel
+        is
+        established, and the subscribing node can read messages from this channel.</p>
+
+    <p>An example flow of messages being produced by one service provider on Interchange A, and consumed by a Service
+        Provider
+        on Interchange B is described below. </p>
+
+    <img src="Inter_Interchange.png" alt="Inter_Interchange">
+
+    <h3> Local Actor Plane </h3>
+
+    <p>Local Actors (ie the users of the system), can request to add Capabilities and Subscriptions to the system, and
+        to
+        deliver data over a Delivery.
+        A Local Actor API is provided for the actors to be able to negotiate subscriptions, capabilities and deliveries,
+        and to
+        find the AMQP endpoints to read from or write to. </p>
+
+    <h3>Message Plane </h3>
+
+    <p>Messages are typically sent by a Local Actor with a Capability and a matching Delivery over an AMQP endpoint. The
+        broker
+        has the responsibility to route messages to any subscribing party, either another Actor on the same broker/node,
+        or to
+        other brokers/nodes that has matching subscriptions.
+        Messages are typically consumed by a Local Actor with a Subscription matching a Capability either on the same
+        broker/node, or on other brokers/nodes that has a subscription that matches the Capability. </p>
+
+    <h2> Component Architecture </h2>
+
+    <h3> NeighbourServer - Incoming II requests </h3>
+
+    <p>The Neighbour server accepts HTTPS requests from other nodes in the network. Interchanges use the endpoints that
+        are
+        exposed by NeighbourServer to register capabilities that it has, as well as subscriptions for data.</p>
+
+    <p>The Neighbour Server consults the DNS upon requests from new neighbours (using their DNS name and client
+        certificate),
+        and either accepts or rejects the request depending on whether the requesting party is listed in the Owning
+        Domain DNS record. Here you can find information about Neighbour Api:</p>
+    <a href="https://nordicwayinterchange.github.io/interchange-swagger-docs/swagger-neighbour/index.html"
+       target="_blank">Neighbour API</a>
+
+    <h3> NeighbourDiscoverer - Outgoing II requests</h3>
+
+    <p>NeighbourDiscoverer is the other side of the conversation from NeighbourServer. The discoverer pushes info about
+        the
+        state of capabilities and subscriptions to neighbouring interchanges in the same network.</p>
+
+    <p>NeighbourDiscoverer routinely consults the DNS for new members in the cluster, and removes any members that the
+        interchange knows, but that is not listed in the DNS record of the Owning Domain.</p>
+
+    <h3> Routing configurer - Broker control</h3>
+
+    <p>The routing configurer controls the broker, and sets up queues and exchanges to match the desired system state.
+        It also
+        uses ACLs to allow or deny other interchanges and service providers access to queues and exchanges.</p>
+
+    <h3> Message Collector - incoming messages </h3>
+
+    <p>The message collector is essentially a bridge, that fetches messages from a neighbouring interchange, and posts
+        those
+        messages on a local exchange for further routing.</p>
+
+    <h3> The broker </h3>
+
+    <p>The AMQPS 1.0 message broker used is currently Qpid Broker-J. Service Providers and Neighbours will be able to
+        connect to queues and exchanges based on their subscriptions or deliveries, and consume or produce messages.</p>
+
+    <h3> Onboard-server - Service provider</h3>
+
+    <p>The onboard server is the contact points for Service Provides. This is where a service provider can register
+        capabilities, subscriptions, deliveries and private channels programmatically. Here you can find information
+        about Onboard Api:</p>
+
+
+    <a href="https://nordicwayinterchange.github.io/interchange-swagger-docs/swagger-onboard/index.html"
+       target="_blank">Onboard API</a>
+
+    <h3> PKI structure </h3>
+
+    <p>A Public Key Infrastructure (PKI) is used to securely manage digital certificates and encryption keys. In the
+        interchange,
+        it helps ensure secure and trusted communication between interchanges and system users.</p>
+
+    <h3> RoutingConfigurer </h3>
+
+    <p>It is responsible for configuring queues, exchanges and bindings in the broker.</p>
+
+    <h3> Service provider client </h3>
+
+    <p>This is where you will find documentation of the current command-line tools for the Norwegian
+        National Interchange project:</p>
+    <a href=" https://nordicwayinterchange.github.io/serviceprovider-client-documentation/serviceproviderclient.html"
+       target="_blank">Service provider Client</a>
+
+    <h3> System network </h3>
+
+    <p>When the system starts, it listens for incoming network requests on configured ports. As shown in the image,
+        these are
+        the default ports on which the services are running.</p>
+
+    <img src="Ports.png" alt="Ports">
+
+    <h2> Frontends </h2>
+
+    <h3> Interchange portal</h3>
+
+    <p>Interchange Portal is a self-help portal for interchange end-users to manage capabilities, subscriptions,
+        deliveries and
+        private channels. Here you can find the user guide on how to use Interchange
+        portal</p>
+    <a href="https://nordicwayinterchange.github.io/interchange-handbook/USERHELP.html"
+       target="_blank">Interchange portal userhelp</a>
+
+    Link to Demo
+
+    <h3> Admin frontend</h3>
+
+    <p>Admin frontend is a systems administrator view of the system. It is currently view-only, and intended to aid an
+        administrator to track down problems in the system, and provide enough information for the administrator to be
+        able
+        to remedy the problem.</p>
+
+    <p>The administrators can view list of service providers, neighbours, exchanges, queues, biqueues, and graphs. For
+        example, this image
+        shows the interface, where the admin can see the list of neighbours, their last connection status, last
+        failed connection attempt and last updated timestamp. For each neighbour, you can see the number of
+        corresponding
+        capabilities, subscriptions, and neighbour
+        subscriptions. You can click on each row to view the details. </p>
+
+    <img src="admin_frontend.png" alt="admin_frontend">
+
+
+    <h3> Keycloak </h3>
+
+    <p>Both **Interchange portal** and **admin frontend** are integrated with Keycloak configured with the required
+        realm,
+        users and roles. It is used to authenticate users and obtain access tokens for secure communication.
+        An organization represents a customer organization and can be configured with its own access permissions, roles,
+        and
+        authentication methods. This enables different customer organizations to have separate authentication and
+        authorization
+        settings while sharing the same Keycloak deployment. </p>
+
+    <h2> Design principles </h2>
+
+    <p>NeighbourServer, OnboardServer and NeighbourDiscoverer only manipulate data in the database, never broker state
+        directly.</p>
+    <p>The database state is the single source of truth for the desired system and broker state.
+        On redeployment of the system, only the data for ServiceProviders and PrivateChannels are imported. Data for
+        other
+        interchanges and their capabilities and subscriptions are discovered from the network upon start.</p>
+
+    <p>RoutingConfigurer is the only component to change the broker state. The broker state is never assumed, and
+        checked
+        on
+        every job run. RoutingConfigurer manipulate the state of the broker to match the desired state in the
+        database.</p>
+
+    <h2> Project Structure</h2>
+
+    <h3> Maven</h3>
+
+    <p>This project uses Apache Maven for build automation and dependency management. All project dependencies and
+        build
+        configurations are defined in the pom.xml file located in the project's root directory.</p>
+
+    <h3> Key Technologies and Dependencies</h3>
+
+    <p>These are some of the key technologies and dependencies in this project: **Java 21, Spring Boot, Apache Qpid,
+        JMS
+        Client,
+        Picocli, PostgreSQL Driver, JUnit Jupiter, Swagger/OpenAPI, JavaCC and Testcontainers**.</p>
+
+    <p>The **Apache Qpid JMS Client** is used to enable JMS-based messaging over AMQPS 1.0, allowing the application to
+        send and
+        receive messages through a message broker.</p>
+
+    <p>The **Picocli** library is used to build command-line interfaces and handle parsing of command-line arguments in
+        a
+        structured way. This is used in **Service provider client**, which is a command-line client designed to interact
+        with the interchange.</p>
+
+    <p>The **PostgreSQL JDBC driver** is used to connect the application to a PostgreSQL database and perform database
+        operations through JDBC.</p>
+
+    <h2> How to run the interchange </h2>
+
+    <p>In addition to running the application with [Docker Compose](README.md#run-using-docker-compose),
+        you can also run it directly after building the project. Once the build is complete, start the application by
+        executing
+        the `./systemtest.sh` or `./single-node-systemtest.sh` script located in the systemtest-scripts module. This is
+        used
+        for local development.
+        The `./systemtest.sh` script runs two interchanges for II testing, and `./single-node-systemtest.sh` script runs
+        one
+        single interchange. </p>
+
+    <h2> Other modules </h2>
+
+    <h3> JMS-client </h3>
+
+    <p>The Interchange uses JMS-client to send and receive data over AMQPS.</p>
+
+    <h3> Export and Import application</h3>
+
+    <p>The Import/Export application module provides functionality for exporting and importing application data to and
+        from
+        a PostgreSQL
+        database using the JSON format. It enables data backup, and restoration while preserving relationships between
+        entities.</p>
+
+    <h2> Deployment </h2>
+
+    <p>The system is packaged as Maven artifacts wrapped in Docker containers, and supports Kubernetes/Helm
+        deployments.
+        For deployment, a Helm chart is provided to manage and orchestrate the services on a Kubernetes cluster.
+        The deployment consists of multiple Kubernetes workloads, which run as pods managed by Kubernetes.</p>
+
+</section>
+<footer>
+    © 2026 Interchange handbook
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>
+
