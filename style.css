@@ -36,14 +36,25 @@ header h1{
     font-size:28px;
 }
 
+a {
+    color: #FF9600;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+a:hover {
+    color: #444f55;
+    text-decoration: underline;
+}
+
 .github{
-    color:white;
+    color: #FF9600;
     font-size:34px;
     transition:.3s;
 }
 
 .github:hover{
-    color:#58a6ff;
+    color: #FF9600;
     transform:scale(1.1);
 }
 
@@ -103,7 +114,7 @@ nav a {
 }
 
 nav a:hover {
-    color: #58a6ff;
+    color: #FF9600;
 }
 
 body.page-exit {
