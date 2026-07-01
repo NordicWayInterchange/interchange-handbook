@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Interchange handbook</title>
+
+    <link id="favicon" rel="icon" href="favicon.ico">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+    <h3>Interchange handbook</h3>
+
+    <nav>
+        <a href="./">Home</a>
+        <a href="architecture.html">Architecture</a>
+        <a href="frontends.html">Frontends</a>
+        <a href="https://www.c-roads.eu/" target="_blank">C-Roads</a>
+    </nav>
+
+    <a href="https://github.com/NordicWayInterchange/interchange" class="github" target="_blank">
+        <i class="fab fa-github"></i>
+    </a>
+</header>
+<section class="content">
+    <h2> Frontends </h2>
+
+    <h3> Interchange portal</h3>
+
+    <p>Interchange Portal is a self-help portal for interchange end-users to manage capabilities, subscriptions,
+        deliveries and
+        private channels. Here you can find the user guide on how to use
+    <a href="https://nordicwayinterchange.github.io/interchange-handbook/USERHELP.html"
+       target="_blank">Interchange portal user help</a> </p>
+
+    <p> To run the interchange portal, see demo/single-node in interchange project. </p>
+
+    <h3> Admin frontend</h3>
+
+    <p>Admin frontend is a systems administrator view of the system. It is currently view-only, and intended to aid an
+        administrator to track down problems in the system, and provide enough information for the administrator to be
+        able
+        to remedy the problem.</p>
+
+    <p>The administrators can view list of service providers, neighbours, exchanges, queues, biqueues, and graphs. For
+        example, this image
+        shows the interface, where the admin can see the list of neighbours, their last connection status, last
+        failed connection attempt and last updated timestamp. For each neighbour, you can see the number of
+        corresponding
+        capabilities, subscriptions, and neighbour
+        subscriptions. You can click on each row to view the details. </p>
+
+    <img src="admin_frontend.png" alt="admin_frontend">
+
+
+    <h3> Keycloak </h3>
+
+    <p>Both Interchange portal and admin frontend are integrated with Keycloak configured with the required
+        realm,
+        users and roles. It is used to authenticate users and obtain access tokens for secure communication.
+        An organization represents a customer organization and can be configured with its own access permissions, roles,
+        and
+        authentication methods. This enables different customer organizations to have separate authentication and
+        authorization
+        settings while sharing the same Keycloak deployment. </p>
+</section>
+<footer>
+    © 2026 Interchange handbook
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>
