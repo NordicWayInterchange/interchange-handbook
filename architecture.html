@@ -185,10 +185,10 @@
 
     <h3> Key Technologies and Dependencies</h3>
 
-    <p>These are some of the key technologies and dependencies in this project: **Java 21, Spring Boot, Apache Qpid,
-        JMS
-        Client,
-        Picocli, PostgreSQL Driver, JUnit Jupiter, Swagger/OpenAPI, JavaCC and Testcontainers**.</p>
+    <p>These are some of the key technologies and dependencies in this project: <span class="tag">Java 21</span>, <span class="tag">Spring Boot</span>,
+        <span class="tag">Apache Qpid</span>, <span class="tag">JMS Client</span>, <span class="tag">Picocli</span>,
+        <span class="tag">PostgreSQL Driver</span>, <span class="tag">JUnit Jupiter</span>, <span class="tag">Swagger/OpenAPI</span>,
+        <span class="tag">JavaCC and Testcontainers</span></p>
 
     <p>The <span class="tag">Apache Qpid JMS Client</span> is used to enable JMS-based messaging over AMQPS 1.0, allowing the application to
         send and
@@ -202,9 +202,10 @@
     <p>The <span class="tag">PostgreSQL JDBC driver</span> is used to connect the application to a PostgreSQL database and perform database
         operations through JDBC.</p>
 
-    <h2> How to run the interchange </h2>
+    <h2> Running a demo interchange </h2>
 
-    <p>In addition to running the application with [Docker Compose](README.md#run-using-docker-compose),
+    <p>In addition to running the application with docker Compose, as described in the
+        <a href="https://github.com/NordicWayInterchange/interchange?tab=readme-ov-file#run-using-docker-compose" target="_blank">README</a>,
         you can also run it directly after building the project. Once the build is complete, start the application by
         executing
         the <span class="tag">./systemtest.sh</span> or <span class="tag">./single-node-systemtest.sh</span> script
