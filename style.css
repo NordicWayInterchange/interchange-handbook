@@ -163,3 +163,8 @@ img {
     display: inline-block;
 }
 
+footer {
+    text-align: left;
+    font-size:14px;
+}
+
