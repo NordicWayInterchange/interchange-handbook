@@ -42,7 +42,7 @@
 
     <h3>Discovery </h3>
 
-    <p>Membership in the network is determined by an Owning Domain, which is a domain listed in DNS. A node looks up the
+    <p>Membership in the network is determined by an Owning Domain, which is a domain listed in <span class="tag">DNS</span>. A node looks up the
         well-known Owning Domain in DNS, and finds all the participating nodes are listed in that domain as SRV records.
         It is
         up to each Node to communicate with all the other nodes in the network, and to exclude any other node that is
@@ -112,7 +112,7 @@
 
     <p>The routing configurer controls the broker, and sets up queues and exchanges to match the desired system state.
         It also
-        uses ACLs to allow or deny other interchanges and service providers access to queues and exchanges.</p>
+        uses <span class="tag">ACLs</span> to allow or deny other interchanges and service providers access to queues and exchanges.</p>
 
     <h3> Message Collector - incoming messages </h3>
 
@@ -137,7 +137,7 @@
 
     <h3> PKI structure </h3>
 
-    <p>A Public Key Infrastructure (PKI) is used to securely manage digital certificates and encryption keys. In the
+    <p>A Public Key Infrastructure <span class="tag">PKI</span> is used to securely manage digital certificates and encryption keys. In the
         interchange,
         it helps ensure secure and trusted communication between interchanges and system users.</p>
 
@@ -185,10 +185,9 @@
 
     <h3> Key Technologies and Dependencies</h3>
 
-    <p>These are some of the key technologies and dependencies in this project: <span class="tag">Java 21</span>, <span class="tag">Spring Boot</span>,
-        <span class="tag">Apache Qpid</span>, <span class="tag">JMS Client</span>, <span class="tag">Picocli</span>,
-        <span class="tag">PostgreSQL Driver</span>, <span class="tag">JUnit Jupiter</span>, <span class="tag">Swagger/OpenAPI</span>,
-        <span class="tag">JavaCC and Testcontainers</span></p>
+    <p>These are some of the key technologies and dependencies in this project: <span class="tag">Java 21</span> <span
+            class="tag">Spring Boot</span> <span class="tag">Apache Qpid</span> <span class="tag">JMS Client</span> <span class="tag">Picocli</span> <span
+                class="tag">PostgreSQL Driver</span> <span class="tag">JUnit Jupiter</span> <span class="tag">Swagger/OpenAPI</span> <span class="tag">JavaCC and Testcontainers</span></p>
 
     <p>The <span class="tag">Apache Qpid JMS Client</span> is used to enable JMS-based messaging over AMQPS 1.0, allowing the application to
         send and
