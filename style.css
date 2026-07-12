@@ -163,6 +163,12 @@ img {
     display: inline-block;
 }
 
+nav a.active {
+    color: #FF9600;
+    text-decoration: underline;
+    border-radius: 4px;
+}
+
 footer {
     text-align: left;
     font-size:14px;
