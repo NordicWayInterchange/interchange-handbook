@@ -22,12 +22,15 @@ window.addEventListener("pageshow", () => {
 });
 
 
-const currentPage = window.location.pathname.split("/").pop() || "index.html";
+const currentPage = window.location.pathname.split("/").pop();
 
 document.querySelectorAll("nav a").forEach(link => {
-    const linkPage = link.getAttribute("href").split("/").pop();
+    const href = link.getAttribute("href");
 
-    if (linkPage === currentPage) {
+    if (
+        (href === "./" && (currentPage === "" || currentPage === "index.html")) ||
+        href === currentPage
+    ) {
         link.classList.add("active");
-}
+    }
 });
