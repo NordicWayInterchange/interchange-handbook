@@ -20,13 +20,14 @@ jobs:
 
       - name: Prepare Pages
         run: |
+          rm -rf public
           mkdir -p public/generated
 
-          cp -r generated/* public/generated/
+          # Copy generated site files to the website root
+          cp -r generated/* public/
 
-          if [ -f index.html ]; then
-            cp index.html public/
-          fi
+          # Also keep a generated folder for absolute paths like /generated/file.png
+          cp -r generated/* public/generated/
 
           echo "Files to deploy:"
           find public -type f | sort
