@@ -31,22 +31,28 @@ jobs:
           # Copy generated files
           cp -r generated/. public/generated/
 
-          echo "=== Before path fixes ==="
-          grep -R '/generated/' public || true
+          echo "=== Files before fixes ==="
+          find public -type f | sort
 
-      - name: Fix paths for GitHub Pages
+      - name: Fix GitHub Pages paths
         run: |
-          # HTML image/link paths
+          # Fix generated paths in HTML
           find public -name "*.html" -exec sed -i \
           's|/generated/|/interchange-handbook/generated/|g' {} \;
 
-          # JavaScript download paths
+          # Fix generated paths in JavaScript
           find public -name "*.js" -exec sed -i \
           's|/generated/|/interchange-handbook/generated/|g' {} \;
 
-          echo "=== After path fixes ==="
-          grep -R '/generated/' public || true
-          grep -R '/interchange-handbook/generated/' public || true
+          echo "=== Path fixes done ==="
+
+      - name: Disable home links
+        run: |
+          # Disable links that point to /
+          find public -name "*.html" -exec sed -i \
+          's|href="/"|href="#" onclick="return false;"|g' {} \;
+
+          echo "=== Home links disabled ==="
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
