@@ -21,7 +21,6 @@ jobs:
       - name: Prepare Pages
         run: |
           rm -rf public
-          mkdir -p public
           mkdir -p public/generated
 
           # Copy website files from repository root
@@ -29,14 +28,18 @@ jobs:
           cp -r *.css public/ 2>/dev/null || true
           cp -r *.js public/ 2>/dev/null || true
 
-          # Copy generated folder to keep /generated/... paths
-          cp -r generated/. public/generated/
+          # Copy generated files
+          cp -r generated/* public/generated/
 
-          # Also copy generated files to root if they reference root assets
-          cp -r generated/. public/
+          echo "Before path fix:"
+          grep -R 'src="/generated/' public || true
 
-          echo "=== Files deployed ==="
-          find public -type f | sort
+      - name: Fix paths for GitHub Pages
+        run: |
+          find public -name "*.html" -exec sed -i 's|src="/generated/|src="/interchange-handbook/generated/|g' {} \;
+
+          echo "After path fix:"
+          grep -R 'generated/' public || true
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
