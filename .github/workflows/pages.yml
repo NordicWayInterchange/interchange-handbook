@@ -15,28 +15,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Prepare Pages
         run: |
           rm -rf public
-          mkdir public
+          mkdir -p public
+          mkdir -p public/generated
 
-          echo "Repository files:"
-          find . -maxdepth 2 -type f | sort
+          # Copy website files from repository root
+          cp -r *.html public/ 2>/dev/null || true
+          cp -r *.css public/ 2>/dev/null || true
+          cp -r *.js public/ 2>/dev/null || true
 
-          echo "Copying site files..."
+          # Copy generated folder to keep /generated/... paths
+          cp -r generated/. public/generated/
 
-          # Copy root html/css/js files
-          cp *.html public/ 2>/dev/null || true
-          cp *.css public/ 2>/dev/null || true
-          cp *.js public/ 2>/dev/null || true
+          # Also copy generated files to root if they reference root assets
+          cp -r generated/. public/
 
-          # Copy generated folder
-          cp -r generated public/generated
-
-          echo "Final deployment:"
+          echo "=== Files deployed ==="
           find public -type f | sort
 
       - name: Setup Pages
