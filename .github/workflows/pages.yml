@@ -44,29 +44,20 @@ jobs:
 
       - name: Fix GitHub Pages paths
         run: |
-          # Fix ALL generated paths in HTML
-          # Covers images, links, and JavaScript inside HTML
+          # Fix ALL generated references in ALL HTML files (including generated folder)
           find public -name "*.html" -exec sed -i \
           's|/generated/|/interchange-handbook/generated/|g' {} \;
 
-          # Fix generated paths in standalone JavaScript files
+          # Fix ALL generated references in JS files
           find public -name "*.js" -exec sed -i \
           's|/generated/|/interchange-handbook/generated/|g' {} \;
 
-          # Disable links pointing to /
+          # Disable home links
           find public -name "*.html" -exec sed -i \
           's|href="/"|href="#" onclick="return false;"|g' {} \;
 
-          # Fix root PNG images
-          find public -name "*.html" -exec sed -i \
-          's|src="/\([^/][^"]*\.png\)"|src="/interchange-handbook/\1"|g' {} \;
-
-          # Fix CSS PNG references
-          find public -name "*.css" -exec sed -i \
-          's|url("/\([^/][^"]*\.png\)")|url("/interchange-handbook/\1")|g' {} \;
-
-          echo "=== Final references ==="
-          grep -R "interchange-handbook" public || true
+          echo "=== Check download path ==="
+          grep -R "USERHELP.html" public || true
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
