@@ -21,16 +21,17 @@ jobs:
       - name: Prepare Pages
         run: |
           rm -rf public
-          mkdir -p public
-
-          # Copy all generated website files
-          cp -r generated/. public/
-
-          # Keep generated folder for /generated/... references
           mkdir -p public/generated
-          cp -r generated/. public/generated/
 
-          echo "=== Published files ==="
+          # Copy everything from repository root
+          cp -r *.html public/ || true
+          cp -r *.css public/ || true
+          cp -r *.js public/ || true
+
+          # Copy generated assets
+          cp -r generated/* public/generated/
+
+          echo "=== DEPLOY CONTENT ==="
           find public -type f | sort
 
       - name: Setup Pages
