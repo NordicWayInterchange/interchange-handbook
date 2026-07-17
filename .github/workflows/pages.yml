@@ -23,23 +23,30 @@ jobs:
           rm -rf public
           mkdir -p public/generated
 
-          # Copy website files from repository root
+          # Copy root website files
           cp -r *.html public/ 2>/dev/null || true
           cp -r *.css public/ 2>/dev/null || true
           cp -r *.js public/ 2>/dev/null || true
 
           # Copy generated files
-          cp -r generated/* public/generated/
+          cp -r generated/. public/generated/
 
-          echo "Before path fix:"
-          grep -R 'src="/generated/' public || true
+          echo "=== Before path fixes ==="
+          grep -R '/generated/' public || true
 
       - name: Fix paths for GitHub Pages
         run: |
-          find public -name "*.html" -exec sed -i 's|src="/generated/|src="/interchange-handbook/generated/|g' {} \;
+          # HTML image/link paths
+          find public -name "*.html" -exec sed -i \
+          's|/generated/|/interchange-handbook/generated/|g' {} \;
 
-          echo "After path fix:"
-          grep -R 'generated/' public || true
+          # JavaScript download paths
+          find public -name "*.js" -exec sed -i \
+          's|/generated/|/interchange-handbook/generated/|g' {} \;
+
+          echo "=== After path fixes ==="
+          grep -R '/generated/' public || true
+          grep -R '/interchange-handbook/generated/' public || true
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
