@@ -21,28 +21,34 @@ jobs:
       - name: Prepare Pages
         run: |
           rm -rf public
-          mkdir -p public/generated
 
-          # Copy root files
+          mkdir -p public/generated
+          mkdir -p public/interchange-handbook/generated
+
+          # Copy root HTML/CSS/JS
           cp -r *.html public/ 2>/dev/null || true
           cp -r *.css public/ 2>/dev/null || true
           cp -r *.js public/ 2>/dev/null || true
 
-          # Copy root png images
+          # Copy root PNG images
           cp -r *.png public/ 2>/dev/null || true
 
           # Copy generated folder
           cp -r generated/. public/generated/
 
-          echo "=== Deployed files ==="
+          # Duplicate generated folder for GitHub Pages project path
+          cp -r generated/. public/interchange-handbook/generated/
+
+          echo "=== Files before fixes ==="
           find public -type f | sort
 
       - name: Fix GitHub Pages paths
         run: |
-          # Fix generated absolute paths
+          # Fix generated images/files in HTML
           find public -name "*.html" -exec sed -i \
           's|src="/generated/|src="/interchange-handbook/generated/|g' {} \;
 
+          # Fix generated links in HTML
           find public -name "*.html" -exec sed -i \
           's|href="/generated/|href="/interchange-handbook/generated/|g' {} \;
 
@@ -50,16 +56,20 @@ jobs:
           find public -name "*.js" -exec sed -i \
           's|/generated/|/interchange-handbook/generated/|g' {} \;
 
-          # Disable home link
+          # Disable home links
           find public -name "*.html" -exec sed -i \
           's|href="/"|href="#" onclick="return false;"|g' {} \;
 
-          # Fix only root PNG references
+          # Fix root PNG images
           find public -name "*.html" -exec sed -i \
           's|src="/\([^/][^"]*\.png\)"|src="/interchange-handbook/\1"|g' {} \;
 
-          echo "=== Final HTML references ==="
-          grep -R "generated/" public || true
+          # Fix CSS root PNG images
+          find public -name "*.css" -exec sed -i \
+          's|url("/\([^/][^"]*\.png\)")|url("/interchange-handbook/\1")|g' {} \;
+
+          echo "=== References after fixes ==="
+          grep -R "interchange-handbook" public || true
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
