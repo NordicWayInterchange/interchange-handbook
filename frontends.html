@@ -64,10 +64,11 @@
 
     <h3> Keycloak </h3>
 
-    <p>Both Interchange portal and admin frontend are integrated with <a href="https://www.keycloak.org/" target="_blank">keyclock</a> configured with
-        the required realm, users and roles. It is used to authenticate users and obtain access tokens for secure communication.
-        An organization represents a customer organization and can be configured with its own access permissions, roles,
-        and authentication methods. This enables different customer organizations to have separate authentication and
+    <p>Both Interchange portal and admin frontend are integrated with <a href="https://www.keycloak.org/" target="_blank">keyclock</a>
+        to handle authentication and authorization. It is configured with the required realm, users and roles.
+        Keycloak authenticates users and issues access tokens, which are used to securely access backend services.
+        An organization represents a customer organization with its own users, roles, and access permissions, while sharing the same Keycloak deployment.
+        This enables different customer organizations to have separate authentication and
         authorization settings while sharing the same Keycloak deployment. </p>
 </section>
 <footer>
