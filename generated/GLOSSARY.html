@@ -29,6 +29,8 @@
 <p>Only applies for DATEX2 publications. Publication type (only one) E.g: SituationPublication or MeasuredDataPublication or VmsPublication</p>
 <h2>Cause code</h2>
 <p>Only applies for DENM publications.</p>
+<h2>Selector</h2>
+<p>A selector is a message filtering mechanism that allows a consumer to receive only messages that match specified criteria. The selector is evaluated by the JMS broker before message delivery, reducing the need for filtering in application code. Selectors use a SQL-like syntax. For example: <em>messageType = 'DATEX_2' AND originatingCountry = 'SE'</em> In this example, the consumer will receive only messages whose messageType property is DATEX_2 and whose originatingCountry property is SE.</p>
 <h2>Private channel</h2>
 <p>A Private channel is a point-to point communication channel between Service Providers on the same interchange. Private Channels do not enforce the constraints of Message Types like Capability-based streams do.</p>
 <h2>Private channel peer</h2>
